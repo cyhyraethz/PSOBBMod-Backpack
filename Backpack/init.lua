@@ -20,6 +20,7 @@ local TotalsText = {
   meseta = 'Meseta: %i',
   scapes = 'Scape Doll: %i',
   pd = 'Photon Drop: %i',
+  ph = 'Photon Hoard: %i',
   pc = 'Photon Crystal: %i',
   ps = 'Photon Sphere: %i',
   es = 'S-Rank Count: %i',
@@ -39,6 +40,7 @@ local TotalsOrdered = {
   'meseta',
   'scapes',
   'pd',
+  'ph',
   'pc',
   'ps',
   'es',
@@ -311,6 +313,13 @@ local function isScapeDoll(item)
   return false
 end
 
+local function isPhotonHoard(item)
+  if item.hex == 0x031014 then
+    return true
+  end
+  return false
+end
+
 local function isPhotonDrop(item)
   if item.hex == 0x031000 then
     return true
@@ -479,6 +488,8 @@ end
 local function ParseTotals(counts, item)
   if isScapeDoll(item) then
     counts.scapes = counts.scapes + 1
+  elseif isPhotonHoard(item) then
+    counts.ph = counts.ph + item.tool.count
   elseif isPhotonDrop(item) then
     counts.pd = counts.pd + item.tool.count
   elseif isPhotonCrystal(item) then
@@ -515,6 +526,7 @@ local function DefaultTotals()
     meseta = 0,
     scapes = 0,
     pd = 0,
+    ph = 0,
     pc = 0,
     ps = 0,
     es = 0,
